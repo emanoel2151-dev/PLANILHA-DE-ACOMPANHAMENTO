@@ -1,65 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Produção Consolidada · Ciclo 09/2026</title>
+<title>Produção Consolidada · Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f3f5f8;--card:#fff;--ink:#14213d;--mut:#5b6679;--line:#dde2ea;--a:#0b4f9c;--b:#e0782b;--soft:#e6eef8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--card:#182236;--ink:#e8edf6;--mut:#9aa7bd;--line:#2a3750;--a:#5aa2f0;--b:#f0a15f;--soft:#1f2f4a}}
+:root{--bg:#eef2f7;--card:#fff;--ink:#0f1f3d;--mut:#5a6b85;--line:#dbe3ee;--a:#1769c2;--b:#f08a24;--soft:#e8f0fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#131d30;--ink:#e8edf6;--mut:#9aa7bd;--line:#26344d;--a:#5aa2f0;--b:#f5a65b;--soft:#1b2a45}}
 *{box-sizing:border-box}html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:15px/1.45 'Source Sans 3',system-ui,sans-serif;font-variant-numeric:tabular-nums}
-main{max-width:1200px;margin:0 auto;padding:20px 16px 40px}
+.hd{background:linear-gradient(120deg,#0a2540,#124a8a);color:#fff;padding:18px 16px 20px}
+.hw{max-width:1320px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 h1{font:600 28px 'Source Serif 4',Georgia,serif;margin:0 0 4px}
-.sub{color:var(--mut);margin:0 0 18px}
-.filters{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.sub{color:var(--mut)}.hd .sub{color:#c9dcf5;margin:0}
+.imp{display:flex;gap:12px;align-items:center;flex-wrap:wrap;max-width:560px}.sr{position:absolute;opacity:0;width:1px;height:1px}
+.btn{background:var(--b);color:#1a1205;font-weight:700;border-radius:6px;padding:8px 16px;cursor:pointer;white-space:nowrap}.btn:focus-within{outline:2px solid #fff;outline-offset:2px}
+#st{color:#c9dcf5;font-size:13px}
+.layout{max-width:1320px;margin:0 auto;padding:16px;display:grid;grid-template-columns:290px minmax(0,1fr);gap:16px;align-items:start}
+.side{position:sticky;top:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;max-height:calc(100vh - 24px);overflow:auto}
+.side>summary{font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px}
+.filters{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
 .filters>label,.filters>.fld{display:flex;flex-direction:column;font-size:13px;color:var(--mut);gap:3px}
-details.ms{position:relative}details.ms summary{list-style:none;cursor:pointer;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-details.ms summary::-webkit-details-marker{display:none}
-details.ms summary:focus-visible{outline:2px solid var(--a);outline-offset:1px}
-details.ms .pop{position:absolute;z-index:5;left:0;right:0;min-width:150px;max-height:260px;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:6px;margin-top:3px;padding:6px 10px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
-details.ms .pop label{display:flex;flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:14px;padding:3px 0;cursor:pointer}
 select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 8px;width:100%;text-overflow:ellipsis}
 select:focus-visible,button:focus-visible{outline:2px solid var(--a);outline-offset:1px}
-.bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 16px;min-height:32px}
+details.ms summary{list-style:none;cursor:pointer;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+details.ms summary::-webkit-details-marker,.side>summary::-webkit-details-marker{display:none}
+details.ms summary:focus-visible,.side>summary:focus-visible{outline:2px solid var(--a);outline-offset:1px}
+details.ms .pop{max-height:200px;overflow:auto;border:1px solid var(--line);border-radius:6px;margin-top:4px;padding:4px 10px}
+details.ms .pop label{display:flex;flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:14px;padding:3px 0;cursor:pointer}
+button{font:inherit;font-weight:600;border:1px solid var(--a);background:var(--a);color:#fff;border-radius:6px;padding:6px 14px;cursor:pointer}button.g{background:transparent;color:var(--a);width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;min-height:26px;align-items:center}
 .chip{background:var(--soft);color:var(--a);border-radius:99px;padding:3px 10px;font-size:13px;font-weight:600}
-button{font:inherit;font-weight:600;border:1px solid var(--a);background:var(--a);color:#fff;border-radius:6px;padding:6px 14px;cursor:pointer}
-button.g{background:transparent;color:var(--a)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
-.kpi{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--a);border-radius:8px;padding:12px 14px}
-.kpi:nth-child(3){border-left-color:var(--b)}
-.kpi span{color:var(--mut);font-size:13px}.kpi b{display:block;font-size:30px;line-height:1.15}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
-.card h2{font-size:16px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.row{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:8px;align-items:center;margin:5px 0;font-size:14px}
-.row .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.trk{background:var(--soft);border-radius:4px;height:14px}.trk i{display:block;height:100%;background:var(--a);border-radius:4px}
-.row em{font-style:normal;font-weight:600;min-width:52px;text-align:right}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--a);border-radius:12px;padding:12px 14px}
+.kpi:nth-child(2){border-top-color:#0fa3a3}.kpi:nth-child(3){border-top-color:var(--b)}.kpi:nth-child(4){border-top-color:#2e9f6b}.kpi:nth-child(5){border-top-color:#7a5cc9}
+.kpi span{color:var(--mut);font-size:13px}.kpi b{display:block;font-size:28px;line-height:1.15}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.card h2{font-size:16px;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+h2 small{color:var(--mut);font-weight:400;font-size:12px}h2 select{width:auto}
 .wide{grid-column:1/-1}.sc{overflow-x:auto}
+.row{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:8px;align-items:center;margin:6px 0;font-size:14px}
+.n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk{background:var(--soft);border-radius:4px;height:12px}.trk i{display:block;height:100%;background:var(--a);border-radius:4px}
+em{font-style:normal;font-weight:600;min-width:52px;text-align:right}
+.rk{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;margin:9px 0;font-size:14px}
+.rk b{width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--a);display:grid;place-items:center;font-size:12px}.rk:first-child b{background:var(--b);color:#1a1205}
+.dn{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.ring{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;position:relative;flex:none}
+.ring::before{content:"";position:absolute;inset:26px;border-radius:50%;background:var(--card)}
+.ring span{position:relative;text-align:center;font-weight:700;font-size:20px;line-height:1.1}.ring small{display:block;font-weight:400;font-size:11px;color:var(--mut)}
+.dn ul{list-style:none;margin:0;padding:0;flex:1;min-width:160px}.dn li{display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center;margin:6px 0;font-size:14px}.dn li i{width:12px;height:12px;border-radius:3px}
+.ser{display:flex;align-items:flex-end;gap:1px;height:170px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.col{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;position:relative}
+.col i{display:block;width:100%;background:var(--a);border-radius:2px 2px 0 0;min-height:1px}#c5 .col i{background:var(--b)}.col:hover i{filter:brightness(1.25)}
+.col u{position:absolute;bottom:-18px;left:0;font-size:10px;color:var(--mut);text-decoration:none;white-space:nowrap}
+.hint{color:var(--mut);font-size:12px;margin-top:8px}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
 th:first-child,td:first-child{text-align:left;white-space:normal}
 th{color:var(--mut);font-weight:600}tfoot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:0}
-.imp{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 14px}.sr{position:absolute;opacity:0;width:1px;height:1px}
-.btn{background:var(--a);color:#fff;font-weight:600;border-radius:6px;padding:8px 16px;cursor:pointer}.btn:focus-within{outline:2px solid var(--b);outline-offset:2px}
-#st{color:var(--mut);font-size:13.5px}
-.empty{color:var(--mut);padding:12px 0}
-.note{color:var(--mut);font-size:12.5px;margin-top:14px}
-</style></head><body><main>
-<h1 id="ttl">Produção Consolidada · Ciclo 09/2026</h1>
-<p class="sub">SENAI-MA · Educação Profissional. Escolha os filtros e todos os números se atualizam.</p>
-<div class="imp"><label class="btn"><input type="file" id="fi" class="sr" accept=".xlsx,.xlsm,.xls,.csv">Importar nova planilha</label><span id="st"></span></div>
-<section class="filters" id="fl"></section>
-<div class="bar"><div id="chips"></div><button class="g" id="clr">Limpar filtros</button></div>
-<section class="kpis" id="k"></section>
+.empty{color:var(--mut);padding:12px 0}.note{color:var(--mut);font-size:12.5px;margin-top:14px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.side{position:static;max-height:none}.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header class="hd"><div class="hw"><div><h1 id="ttl">Produção Consolidada · Ciclo 09/2026</h1><p class="sub">SENAI-MA · Educação Profissional. Escolha os filtros e todos os números se atualizam.</p></div>
+<div class="imp"><label class="btn"><input type="file" id="fi" class="sr" accept=".xlsx,.xlsm,.xls,.csv">Importar nova planilha</label><span id="st"></span></div></div></header>
+<main class="layout">
+<aside><details class="side" id="side" open><summary>Filtros</summary><div class="filters" id="fl"></div><button class="g" id="clr">Limpar filtros</button></details></aside>
+<div><div class="chips" id="chips"></div><section class="kpis" id="k"></section>
 <section class="grid">
-<div class="card wide"><h2><span>Tabela dinâmica</span><label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">Agrupar por <select id="gb" style="width:auto"></select></label></h2><div class="sc"><table id="t"></table></div></div>
-<div class="card"><h2>Matrículas por unidade</h2><div id="c1"></div></div>
-<div class="card"><h2>Matrículas por situação</h2><div id="c2"></div></div>
-<div class="card"><h2>Matrículas por tipo de financiamento</h2><div id="c3"></div></div>
-<div class="card"><h2>Matrículas por ano de saída prevista</h2><div id="c4"></div></div>
+<div class="card"><h2><span>Ranking de unidades</span><select id="rk"><option value="c">Matrículas</option><option value="h">Horas-aluno</option><option value="e">Horas EAD</option><option value="t">Total de horas</option></select></h2><div id="c1"></div></div>
+<div class="card"><h2>Situação da matrícula</h2><div id="c2"></div></div>
+<div class="card"><h2><span>Entradas por mês</span><small>DT_ENTRADA</small></h2><div id="c4"></div></div>
+<div class="card"><h2><span>Saídas previstas por mês</span><small>DT_SAIDA_PREVISTA</small></h2><div id="c5"></div></div>
+<div class="card"><h2>Tipo de financiamento</h2><div id="c3"></div></div>
+<div class="card"><h2>Modalidade</h2><div id="c6"></div></div>
+<div class="card wide"><h2><span>Tabela dinâmica</span><label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px">Agrupar por <select id="gb"></select></label></h2><div class="sc"><table id="t"></table></div></div>
 </section>
-<p class="note">Matrículas = contagem de CD_ALUNO. Horas = soma de HORA_ALUNO e HORA_ALUNO_EAD. Dados agregados da aba “Producao Consolidada EP”, sem informações pessoais dos alunos.</p>
+<p class="note">Matrículas = contagem de CD_ALUNO. Horas = soma de HORA_ALUNO e HORA_ALUNO_EAD. Dados agregados da aba “Producao Consolidada EP - Anali”, sem informações pessoais dos alunos.</p></div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
@@ -83,7 +100,7 @@ function build(){let h='';
  reset(true)}
 function reset(def){F={};if(def&&DEF.u>=0)F.u=String(DEF.u);
  document.querySelectorAll('#fl select').forEach(s=>s.value=F[s.dataset.k]||'');document.querySelectorAll('#fl input').forEach(i=>i.checked=false);render()}
-document.addEventListener('change',e=>{const s=e.target;if(s.dataset.k){F[s.dataset.k]=s.value;render()}if(s.dataset.m){F[s.dataset.m]=[...document.querySelectorAll(`input[data-m="${s.dataset.m}"]:checked`)].map(i=>i.value);render()}if(s.id=='gb')render()});
+document.addEventListener('change',e=>{const s=e.target;if(s.dataset.k){F[s.dataset.k]=s.value;render()}if(s.dataset.m){F[s.dataset.m]=[...document.querySelectorAll(`input[data-m="${s.dataset.m}"]:checked`)].map(i=>i.value);render()}if(s.id=='gb'||s.id=='rk')render()});
 document.addEventListener('click',e=>document.querySelectorAll('details.ms[open]').forEach(d=>{if(!d.contains(e.target))d.open=false}));
 $('clr').onclick=()=>reset(false);
 const yr=s=>s.length==7?s.slice(0,4):'Sem data';const keyOf=(r,k)=>k=='y'?yr(V.p[r[6]]):k=='ey'?yr(V.d[r[8]]):r[K.indexOf(k)];
@@ -98,12 +115,26 @@ let cur=[];
 function render(){cur=R.filter(ok);
  for(const d of document.querySelectorAll('details.ms')){const a=F[d.dataset.d]||[];d.querySelector('summary').textContent=a.length?(d.dataset.d.endsWith('y')?a.slice().sort().join(', '):a.map(Number).sort((x,y)=>x-y).map(m=>MON[m-1]).join(', ')):'Todos'}
  const S=cur.reduce((a,r)=>(a.h+=r[9],a.e+=r[10],a.c+=r[11],a),{h:0,e:0,c:0});
- $('k').innerHTML=[['Matrículas',S.c],['Horas-aluno (presencial)',S.h],['Horas-aluno EAD',S.e],['Total de horas',S.h+S.e]].map(a=>`<div class="kpi"><span>${a[0]}</span><b>${fmt(a[1])}</b></div>`).join('');
+ $('k').innerHTML=[['Matrículas',S.c],['Horas-aluno (presencial)',S.h],['Horas-aluno EAD',S.e],['Total de horas',S.h+S.e],['Horas por matrícula',S.c?Math.round((S.h+S.e)/S.c):0]].map(a=>`<div class="kpi"><span>${a[0]}</span><b>${fmt(a[1])}</b></div>`).join('');
  const ch=[];for(const k of ['u','m','f','a','g','n','s'])if(F[k])ch.push(lbl(k,V[k][F[k]]));const mj=a=>a.map(Number).sort((x,y)=>x-y).map(m=>MON[m-1]).join(', ');if(F.y&&F.y.length)ch.push('Saída: '+F.y.slice().sort().join(', '));if(F.mo&&F.mo.length)ch.push('Saída: '+mj(F.mo));if(F.ey&&F.ey.length)ch.push('Entrada: '+F.ey.slice().sort().join(', '));if(F.emo&&F.emo.length)ch.push('Entrada: '+mj(F.emo));
  $('chips').innerHTML=ch.map(c=>`<span class="chip">${c}</span> `).join('')||'<span class="sub" style="margin:0">Sem filtros ativos: mostrando tudo.</span>';
  const g=$('gb').value,m=[...agg(g,cur)].map(([x,o])=>[name(g,x),o]);m.sort(g=='y'||g=='ey'?(a,b)=>a[0]<b[0]?-1:1:(a,b)=>b[1].c-a[1].c);
  $('t').innerHTML=m.length?`<thead><tr><th>${NAME[g]}</th><th>Horas-aluno</th><th>Horas-aluno EAD</th><th>Matrículas</th></tr></thead><tbody>${m.map(a=>`<tr><td>${a[0]}</td><td>${fmt(a[1].h)}</td><td>${fmt(a[1].e)}</td><td>${fmt(a[1].c)}</td></tr>`).join('')}</tbody><tfoot><tr><td>Total geral</td><td>${fmt(S.h)}</td><td>${fmt(S.e)}</td><td>${fmt(S.c)}</td></tr></tfoot>`:'<tbody><tr><td class="empty">Nenhum dado para estes filtros.</td></tr></tbody>';
- bars('c1','u');bars('c2','s');bars('c3','f');bars('c4','y',14)}
+ rank();donut();bars('c3','f');bars('c6','m');series('c4','d');series('c5','p')}
+const PAL=['#1769c2','#0fa3a3','#f08a24','#2e9f6b','#7a5cc9','#d14b6a','#8a96a8'],EMPTY='<div class="empty">Nenhum dado para estes filtros.</div>';
+function rank(){const mt=$('rk').value,m=[...agg('u',cur)].map(([x,o])=>[name('u',x),mt=='c'?o.c:mt=='h'?o.h:mt=='e'?o.e:o.h+o.e]).sort((a,b)=>b[1]-a[1]),mx=Math.max(1,...m.map(a=>a[1]));
+ $('c1').innerHTML=m.length?m.map((a,i)=>`<div class="rk"><b>${i+1}</b><div><div class="n" title="${a[0]}">${a[0]}</div><div class="trk"><i style="width:${a[1]/mx*100}%"></i></div></div><em>${fmt(a[1])}</em></div>`).join(''):EMPTY}
+function donut(){const m=[...agg('s',cur)].map(([x,o])=>[name('s',x),o.c]).sort((a,b)=>b[1]-a[1]),t=m.reduce((x,a)=>x+a[1],0);
+ if(!t){$('c2').innerHTML=EMPTY;return}
+ const top=m.slice(0,6),rest=m.slice(6).reduce((x,a)=>x+a[1],0);if(rest)top.push(['Outras',rest]);let acc=0;
+ const seg=top.map((a,i)=>{const s=acc/t*100;acc+=a[1];return PAL[i]+' '+s+'% '+acc/t*100+'%'}).join(',');
+ $('c2').innerHTML=`<div class="dn"><div class="ring" style="background:conic-gradient(${seg})"><span>${fmt(t)}<small>matrículas</small></span></div><ul>${top.map((a,i)=>`<li><i style="background:${PAL[i]}"></i><span class="n" title="${a[0]}">${a[0]}</span><em>${(a[1]/t*100).toFixed(1).replace('.',',')}%</em></li>`).join('')}</ul></div>`}
+function series(id,k){const i=K.indexOf(k),M=new Map();for(const r of cur){const p=V[k][r[i]];if(p.length==7)M.set(p,(M.get(p)||0)+r[11])}
+ const ks=[...M.keys()].sort();if(!ks.length){$(id).innerHTML=EMPTY;return}
+ const all=[];let[y,m]=ks[0].split('-').map(Number);const[ey,em]=ks[ks.length-1].split('-').map(Number);
+ while((y<ey||(y==ey&&m<=em))&&all.length<600){all.push(y+'-'+z(m));if(++m>12){m=1;y++}}
+ const mx=Math.max(1,...all.map(p=>M.get(p)||0));
+ $(id).innerHTML=`<div class="ser">${all.map(p=>{const v=M.get(p)||0,mm=+p.slice(5);return `<div class="col" title="${MON[mm-1]}/${p.slice(0,4)}: ${fmt(v)} matrículas"><i style="height:${v/mx*100}%"></i><u>${mm==1?p.slice(0,4):''}</u></div>`}).join('')}</div><div class="hint">Matrículas por mês · pico de ${fmt(mx)} em um único mês · passe o mouse sobre as barras</div>`}
 let META={t:'Ciclo 09/2026',src:'Produção_Consolidada_Ciclo_092026.xlsx'};
 const st=s=>$('st').textContent=s,wait=()=>new Promise(r=>setTimeout(r,40));
 function useData(c,def){V=c.v;R=c.r;META=c.meta||META;YEARSE=[...new Set(V.d.map(x=>x.slice(0,4)))].filter(y=>/^\d{4}$/.test(y)).sort();YEARS=[...new Set(V.p.map(x=>x.slice(0,4)))].filter(y=>/^\d{4}$/.test(y)).sort();
@@ -140,5 +171,6 @@ $('fi').onchange=e=>{const f=e.target.files[0];if(f)load(f);e.target.value=''};
 addEventListener('dragover',e=>e.preventDefault());
 addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(f)load(f)});
 let c0=null;try{c0=JSON.parse(localStorage.getItem('prodcube2')||'null');if(!c0||!c0.v||!c0.r)c0=null}catch(e){}
+if(innerWidth<900)$('side').open=false;
 useData(c0||D,!c0);
 </script></body></html>
